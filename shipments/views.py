@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import HttpResponse
+from django.core import serializers
 from django.core.paginator import Paginator
 from rest_framework.generics import ListAPIView
 from shipments.models import Shipments
@@ -37,14 +38,15 @@ class ShipmentsAPIView(ListAPIView):
         else:
             qs = qs.order_by('id')
 
+
         if per:
             paginator = Paginator(qs, per)
         else:
             paginator = Paginator(qs, 4)
-        
+
         if page:
             qs = paginator.page(page)
         else:
             qs = paginator.page(1)
-
+        
         return qs
