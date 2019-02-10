@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class ShipmentsProductsConfig(AppConfig):
-    name = 'shipments_products'
+    name = 'shipment_products'
