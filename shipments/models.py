@@ -1,9 +1,6 @@
 from django.db import models
-from django.http import JsonResponse
 from products.models import Products
-from products.serializers import ProductsSerializer
 from shipment_products.models import ShipmentProducts
-from django.core import serializers
 
 
 class Shipments(models.Model):
@@ -21,9 +18,12 @@ class Shipments(models.Model):
     def products(self):
         products = Products.objects.filter(company_id=self.company_id).values('id', 'sku', 'description')
         products_list = []
+        active_shipment_count = 0
         for product in products:
             shipment_product = ShipmentProducts.objects.filter(product_id=product['id']).filter(shipment_id=self.id)
             if len(shipment_product) > 0:
+                active_shipment_count += 1
                 product['quantity'] = shipment_product.values()[0]['quantity']
+                product['active_shipment_count'] = active_shipment_count
                 products_list.append(product)
         return products_list

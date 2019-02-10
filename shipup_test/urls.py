@@ -7,8 +7,6 @@ from products import views as products_views
 
 api_urls = ([
     path('shipments', shipments_views.ShipmentsAPIView.as_view(), name='shipments'),
-    path('companies', companies_views.CompaniesAPIView.as_view(), name='companies'),
-    path('products', products_views.ProductsAPIView.as_view(), name='products'),
 ], 'v1')
 
 urlpatterns = [
