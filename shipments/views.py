@@ -5,7 +5,9 @@ from django.core.paginator import Paginator
 from rest_framework.generics import ListAPIView
 from shipments.models import Shipments
 from shipments.serializers import ShipmentsSerializer
-
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
 
 class ShipmentsAPIView(ListAPIView):
     queryset = Shipments.objects.all()
@@ -22,8 +24,7 @@ class ShipmentsAPIView(ListAPIView):
         per = self.request.GET.get('per', None)
 
         if not company_id:
-            # return error "company_id needed"
-            return qs
+            raise ValueError
         
         qs = Shipments.objects.filter(company_id=company_id)
 
@@ -50,3 +51,14 @@ class ShipmentsAPIView(ListAPIView):
             qs = paginator.page(1)
         
         return qs
+
+    def list(self, request):
+        try:
+            queryset = self.get_queryset()
+            serialize_value = ShipmentsSerializer(queryset, many=True, context={'request': self.request}).data
+            return_val = {
+                'records': serialize_value
+            }
+            return Response(return_val, status=status.HTTP_200_OK)
+        except ValueError:
+            return Response({'error': 'company_id is required'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
