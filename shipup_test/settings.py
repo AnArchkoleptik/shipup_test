@@ -77,6 +77,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'shipup_test',
+        'USER': 'shipup_user',
+        'PASSWORD': 'shipup',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
