@@ -86,8 +86,8 @@ DATABASES = {
         'NAME': 'shipup_test',
         'USER': 'shipup_user',
         'PASSWORD': 'shipup',
-        'HOST': '',
-        'PORT': '',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
